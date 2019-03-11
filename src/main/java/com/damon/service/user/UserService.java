@@ -7,6 +7,7 @@
 // ============================================================================
 package com.damon.service.user;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -18,8 +19,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.damon.constansts.ESIndexContext;
 import com.damon.entity.user.User;
 import com.damon.repository.user.UserRepository;
+import com.damon.utils.ElasticsearchUtil;
 
 /**
  * @author damon.huang
@@ -27,8 +30,11 @@ import com.damon.repository.user.UserRepository;
  */
 @Service
 public class UserService implements UserDetailsService {
+
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private ElasticsearchUtil elasticsearchUtil;
 
     @Override
     public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
@@ -48,4 +54,22 @@ public class UserService implements UserDetailsService {
         userRepository.findAll().iterator().forEachRemaining(list::add);
         return list;
     }
+
+    public void index(String username) throws IOException {
+        final User user = userRepository.findByUsername(username);
+        if (user == null) {
+            return;
+        }
+        final List<ESIndexContext> indexContexts = new ArrayList<>();
+        final ESIndexContext indexCtx = new ESIndexContext(user.getEntityName(), user.getId(), false);
+        indexCtx.setPojo(user);
+        indexContexts.add(indexCtx);
+        elasticsearchUtil.batchIndex(indexContexts);
+
+    }
+
+    public String getDocFromES(String id) throws IOException {
+        return elasticsearchUtil.getDoc("User", id);
+    }
+
 }
