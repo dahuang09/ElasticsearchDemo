@@ -186,6 +186,42 @@
 							"raw": ""
 						},
 						"url": {
+							"raw": "http://{{host}}:{{port}}/users/index/get/123",
+							"protocol": "http",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"users",
+								"index",
+								"get",
+								"123"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getUser",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
 							"raw": "http://{{host}}:{{port}}/users/index/get/1234",
 							"protocol": "http",
 							"host": [
@@ -197,31 +233,6 @@
 								"index",
 								"get",
 								"1234"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "getUser",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "http://{{host}}:{{port}}/users/index/damon2",
-							"protocol": "http",
-							"host": [
-								"{{host}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"users",
-								"index",
-								"damon2"
 							]
 						}
 					},

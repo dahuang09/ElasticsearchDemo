@@ -20,12 +20,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.damon.service.user.UserService;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * @author damon.huang
  *
  */
 @RestController
 @RequestMapping("/users")
+@Slf4j
 public class UserController {
     @Autowired
     private UserService userService;
@@ -37,16 +40,19 @@ public class UserController {
 
     @PutMapping(value="/index/{id}")
     public String index(@PathVariable String id) {
+        log.debug("indexing user by {}", id);
         try {
             userService.index(id);
         } catch (final IOException e) {
             return "404";
         }
+        log.debug("indexed user by {} done", id);
         return "201";
     }
 
     @GetMapping(value="/index/get/{id}")
     public String getDocFromES(@PathVariable String id) {
+        log.debug("get doc from Es by {}", id);
         try {
             return userService.getDocFromES(id);
         } catch (final IOException e) {
