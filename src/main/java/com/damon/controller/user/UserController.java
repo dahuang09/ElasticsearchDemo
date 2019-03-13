@@ -59,4 +59,10 @@ public class UserController {
             return "";
         }
     }
+
+    @GetMapping(value="/index/query/{searchContent}")
+    public List<String> queryFromES(@PathVariable String searchContent) throws IOException {
+        return userService.queryFromES(searchContent);
+    }
+
 }

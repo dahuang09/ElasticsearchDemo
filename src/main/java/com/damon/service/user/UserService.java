@@ -72,4 +72,10 @@ public class UserService implements UserDetailsService {
         return elasticsearchUtil.getDoc("User", id);
     }
 
+    public List<String> queryFromES(String content) throws IOException {
+        return elasticsearchUtil.queryFromES(content);
+    }
+
+
+
 }
