@@ -1,10 +1,3 @@
-// Copyright (c) 1998-2018 Core Solutions Limited. All rights reserved.
-// ============================================================================
-// CURRENT VERSION CNT.8.10.0
-// ============================================================================
-// CHANGE LOG
-// CNT.8.10.0: 2018-09-10, damon.huang KME-3528, creation
-// ============================================================================
 package com.damon.constansts;
 
 import com.fasterxml.jackson.core.JsonProcessingException;

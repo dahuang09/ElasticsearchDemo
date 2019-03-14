@@ -1,10 +1,3 @@
-// Copyright (c) 1998-2019 Core Solutions Limited. All rights reserved.
-// ============================================================================
-// CURRENT VERSION CNT.5.0.1
-// ============================================================================
-// CHANGE LOG
-// CNT.5.0.1 : 2019-XX-XX, damon.huang, creation
-// ============================================================================
 package com.damon.controller.user;
 
 import java.io.IOException;
@@ -20,6 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.damon.service.user.UserService;
 
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -38,6 +34,10 @@ public class UserController {
         return userService.findAll();
     }
 
+    @ApiOperation(value="index user into Elasticsearch", notes="get user by id and index user into Elasticsearch")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "user id", required = true, dataType = "String")
+    })
     @PutMapping(value="/index/{id}")
     public String index(@PathVariable String id) {
         log.debug("indexing user by {}", id);
