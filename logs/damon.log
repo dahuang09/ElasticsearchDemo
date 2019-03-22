@@ -1,3 +1,12 @@
-2206 [main] INFO  com.damon.ElasticsearchDemoApplication - Starting ElasticsearchDemoApplication v0.0.1-SNAPSHOT on CORE-FRANK-X240 with PID 13508 (C:\working\ElasticSearch-Study\ElasticsearchDemo\target\ElasticsearchDemo-0.0.1-SNAPSHOT.jar started by damon.huang in C:\working\ElasticSearch-Study\ElasticsearchDemo)
-2227 [main] INFO  com.damon.ElasticsearchDemoApplication - No active profile set, falling back to default profiles: default
-16363 [main] INFO  com.damon.ElasticsearchDemoApplication - Started ElasticsearchDemoApplication in 15.454 seconds (JVM running for 17.409)
+8833 [main] INFO  com.damon.ElasticsearchDemoApplication - Starting ElasticsearchDemoApplication on CORE-FRANK-X240 with PID 11252 (C:\working\ElasticSearch-Study\ElasticsearchDemo\target\classes started by damon.huang in C:\working\ElasticSearch-Study\ElasticsearchDemo)
+8840 [main] DEBUG com.damon.ElasticsearchDemoApplication - Running with Spring Boot v2.1.3.RELEASE, Spring v5.1.5.RELEASE
+8845 [main] INFO  com.damon.ElasticsearchDemoApplication - No active profile set, falling back to default profiles: default
+49120 [main] INFO  com.damon.ElasticsearchDemoApplication - Started ElasticsearchDemoApplication in 44.692 seconds (JVM running for 50.876)
+158466 [http-nio-8080-exec-8] DEBUG com.damon.controller.user.UserController - indexing all users
+158507 [http-nio-8080-exec-8] INFO  com.damon.service.user.UserService - batchSyncUserToES start: thread=32, total=9999
+159414 [pool-4-thread-1] DEBUG com.damon.utils.ElasticsearchUtil - create save index requeset, indexName:user_damon, indexId 123, json:{"id":"123","username":"damon1","password":"$2a$04$HPTPbK.1Ec58yka1QQBzYeH11NgJT0coSonNY85fqTcFgmWT9hxVm"}
+159415 [pool-4-thread-2] DEBUG com.damon.utils.ElasticsearchUtil - create save index requeset, indexName:user_damon, indexId 1234, json:{"id":"1234","username":"damon2","password":"$2a$04$GG0U/gaoGWoqexSoOSC46O.zjSoRofsOX2vOkwfFd4N5Hxb/bt31q"}
+165005 [pool-4-thread-2] INFO  com.damon.utils.ElasticsearchUtil - finished index, operator=create, index=user_damon, id=1234
+165006 [pool-4-thread-1] INFO  com.damon.utils.ElasticsearchUtil - finished index, operator=create, index=user_damon, id=123
+165007 [http-nio-8080-exec-8] INFO  com.damon.service.user.UserService - total index user=9999, failure user=0
+165007 [http-nio-8080-exec-8] DEBUG com.damon.controller.user.UserController - indexing all users done

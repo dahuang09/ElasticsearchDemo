@@ -65,4 +65,16 @@ public class UserController {
         return userService.queryFromES(searchContent);
     }
 
+    @PutMapping(value="/index/all")
+    public String indexAll() {
+        log.debug("indexing all users");
+        try {
+            userService.batchSyncUserToES();
+        } catch (final Exception e) {
+            return "404";
+        }
+        log.debug("indexing all users done");
+        return "201";
+    }
+
 }

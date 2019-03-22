@@ -40,13 +40,14 @@ public class UserRepository {
 
     public List<User> findAll() {
         final List<User> users = new ArrayList<>();
-        final User user1 = new User();
-        user1.setId("123");
-        user1.setUsername("damon1");
-        final User user2 = new User();
-        user2.setId("1234");
-        user2.setUsername("damon2");
-        users.add(user2);
+        for (int i=1; i<10000; i++) {
+            final User user = new User();
+            final String id = "DM" + i;
+            final String username = "damon" + i;
+            user.setId(id);
+            user.setUsername(username);
+            users.add(user);
+        }
         return users;
     }
 }
