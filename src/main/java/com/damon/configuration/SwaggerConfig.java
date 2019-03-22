@@ -6,6 +6,9 @@ import java.util.List;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -31,7 +34,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  */
 @Configuration
 @EnableSwagger2
-public class SwaggerConfig {
+public class SwaggerConfig extends WebMvcConfigurationSupport{
 
     @Bean
     public Docket api() {
@@ -43,6 +46,21 @@ public class SwaggerConfig {
           .securitySchemes(Collections.singletonList(securitySchema()))
           .securityContexts(Collections.singletonList(securityContext()))
           .apiInfo(apiInfo());
+    }
+
+    @Bean
+    public Docket oauthApi() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .groupName("oauth")
+                .apiInfo(apiInfo())
+                .ignoredParameterTypes(Authentication.class)
+                .select()
+                    .apis(RequestHandlerSelectors.any())
+                    .paths(PathSelectors.ant("/oauth/*"))
+                    .build()
+                .securitySchemes(Collections.singletonList(securitySchema()))
+                .securityContexts(Collections.singletonList(securityContext()));
+
     }
 
     private SecurityScheme securitySchema() {
@@ -59,7 +77,7 @@ public class SwaggerConfig {
 
     private SecurityContext securityContext() {
         return SecurityContext.builder()
-                .securityReferences(defaultAuth()).forPaths(PathSelectors.ant("/api/**"))
+                .securityReferences(defaultAuth()).forPaths(PathSelectors.ant("/users/**"))
                 .build();
     }
 
@@ -76,14 +94,14 @@ public class SwaggerConfig {
         return SecurityConfigurationBuilder.builder().clientId("damon-client").clientSecret("damon-secret").build();
     }
 
-//    @Override
-//    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-//        registry.addResourceHandler("swagger-ui.html")
-//          .addResourceLocations("classpath:/META-INF/resources/");
-//
-//        registry.addResourceHandler("/webjars/**")
-//          .addResourceLocations("classpath:/META-INF/resources/webjars/");
-//    }
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("swagger-ui.html")
+          .addResourceLocations("classpath:/META-INF/resources/");
+
+        registry.addResourceHandler("/webjars/**")
+          .addResourceLocations("classpath:/META-INF/resources/webjars/");
+    }
 
     private ApiInfo apiInfo() {
         return new ApiInfo(
