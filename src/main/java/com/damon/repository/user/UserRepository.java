@@ -40,7 +40,7 @@ public class UserRepository {
 
     public List<User> findAll() {
         final List<User> users = new ArrayList<>();
-        for (int i=1; i<10000; i++) {
+        for (int i=1; i<=10000; i++) {
             final User user = new User();
             final String id = "DM" + i;
             final String username = "damon" + i;

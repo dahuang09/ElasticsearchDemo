@@ -23,6 +23,7 @@ import org.springframework.util.CollectionUtils;
 import com.damon.constansts.ESIndexContext;
 import com.damon.entity.user.User;
 import com.damon.repository.user.UserRepository;
+import com.damon.thread.batch.UserBatchThread;
 import com.damon.utils.ElasticsearchUtil;
 
 import lombok.extern.slf4j.Slf4j;
@@ -39,9 +40,6 @@ public class UserService implements UserDetailsService {
     private UserRepository userRepository;
     @Autowired
     private ElasticsearchUtil elasticsearchUtil;
-
-    private final AtomicLong totalProcessed = new AtomicLong();
-    private final AtomicLong errorCount = new AtomicLong();
 
     @Override
     public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
@@ -75,6 +73,15 @@ public class UserService implements UserDetailsService {
 
     }
 
+    public void indexUser(User user) throws IOException {
+        final List<ESIndexContext> indexContexts = new ArrayList<>();
+        final ESIndexContext indexCtx = new ESIndexContext(user.getEntityName(), user.getId(), false);
+        indexCtx.setPojo(user);
+        indexContexts.add(indexCtx);
+        elasticsearchUtil.batchIndex(indexContexts);
+
+    }
+
     public String getDocFromES(String id) throws IOException {
         return elasticsearchUtil.getDoc("User", id);
     }
@@ -92,30 +99,19 @@ public class UserService implements UserDetailsService {
         if (CollectionUtils.isEmpty(users)) {
             return "201";
         }
-        final long startTime = System.currentTimeMillis();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (true) {
-                    try {
-                        Thread.sleep(60 * 1000);
-                    } catch (final Exception e) {
-                    }
-                    final long usedTime = (System.currentTimeMillis() - startTime);
-                    log.info("## current used time: {}, total processed vpo: {}, avg: {} docs/ms, error: {}",
-                            usedTime, totalProcessed,  totalProcessed.get()/usedTime, errorCount.get());
-                }
-            }
-        }).start();
-
+        final AtomicLong totalProcessed = new AtomicLong();
+        final AtomicLong errorCount = new AtomicLong();
+        final UserBatchThread userBatchThread = new UserBatchThread(totalProcessed, errorCount);
+        userBatchThread.start();
         for (final User user : users) {
             final Runnable runable = new Runnable() {
                 @Override
                 public void run() {
                     try {
-                        index(user.getUsername());
+                        indexUser(user);
                         totalProcessed.getAndAdd(1);
                     } catch (final IOException e) {
+                        errorCount.getAndAdd(1);
                         log.error("Fail to index user name=" + user.getUsername(), e);
                     }
                 }
@@ -126,12 +122,14 @@ public class UserService implements UserDetailsService {
         try {
             if (executeService.awaitTermination(Long.MAX_VALUE, TimeUnit.DAYS)) {
                 log.info("total index user={}, failure user={}", totalProcessed, errorCount);
+                userBatchThread.setCancelled(true);
+                return "201";
             }
         } catch (final InterruptedException e) {
             log.error("Cannot shutdown thread pool.", e);
             throw e;
         }
-        return "201";
+        return "404";
     }
 
 
