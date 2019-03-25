@@ -1,0 +1,2 @@
+@echo off
+java -Xms512M -Xmx2048M -Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=8000,suspend=y -jar target/ElasticsearchDemo-0.0.1-SNAPSHOT.jar --spring.profile.active=prod --logging.config=config\logback.xml
