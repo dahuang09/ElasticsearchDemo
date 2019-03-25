@@ -1,0 +1,73 @@
+{
+	"from": 0,
+	"size": 50,
+	"timeout": "30s",
+	"query": {
+		"bool": {
+			"must": [{
+				"term": {
+					"username": {
+						"value": "damon",
+						"boost": 1.0
+					}
+				}
+			},
+			{
+				"term": {
+					"docStatus": {
+						"value": true,
+						"boost": 1.0
+					}
+				}
+			},
+			{
+				"multi_match": {
+					"query": "damon",
+					"fields": [],
+					"type": "best_fields",
+					"operator": "AND",
+					"slop": 0,
+					"prefix_length": 0,
+					"max_expansions": 50,
+					"zero_terms_query": "NONE",
+					"auto_generate_synonyms_phrase_query": true,
+					"fuzzy_transpositions": true,
+					"boost": 1.0
+				}
+			}],
+			"filter": [{
+				"terms_set": {
+					"matchACLField": {
+						"terms": ["123"],
+						"minimum_should_match_field": "matchACLField.productCategoryLen",
+						"boost": 1.0
+					}
+				}
+			},
+			{
+				"range": {
+					"updatedOn": {
+						"from": "2018-09-30T00:00:00.000+08:00",
+						"to": "2018-10-30T23:59:59.000+08:00",
+						"include_lower": true,
+						"include_upper": true,
+						"boost": 1.0
+					}
+				}
+			}],
+			"adjust_pure_negative": true,
+			"boost": 1.0
+		}
+	},
+	"_source": {
+		"includes": ["username", "id", "desc"],
+		"excludes": []
+	},
+	"sort": [{
+		"updatedOn": {
+			"order": "desc",
+			"missing": "_last",
+			"unmapped_type": "long"
+		}
+	}]
+}
