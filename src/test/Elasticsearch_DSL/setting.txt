@@ -1,0 +1,19 @@
+field limit:
+PUT my_index/_settings
+{
+  "index.mapping.total_fields.limit": 1500
+}
+
+PUT http://localhost:9200/vpo_kmt
+{
+  "settings" : {
+       "index.mapping.total_fields.limit": 1500
+  }
+}
+
+
+
+curl -X PUT -H "Content-Type: application/json" -d '{"index.mapping.total_fields.limit": 5000}' https://localhost:9200/user_damon/_settings
+
+
+curl https://localhost:9200/user_damon/_settings

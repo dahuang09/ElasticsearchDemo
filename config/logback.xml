@@ -47,7 +47,7 @@
 		<appender-ref ref="ASYNC"/>
      </root>
 
-    <root level="INFO" additivity="false">
+    <root level="ERROR" additivity="false">
         <appender-ref ref="CONSOLE" />
     </root>
 
