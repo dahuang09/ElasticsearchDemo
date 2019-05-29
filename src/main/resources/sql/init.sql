@@ -7,3 +7,12 @@ CREATE TABLE IF NOT EXISTS `USER`(
    `updated_date` DATE,
    PRIMARY KEY ( `id` )
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `ORDOR`(
+   `id` VARCHAR(100),
+   `order_num` VARCHAR(100) NOT NULL,
+   `amt` DECIMAL(5,5),
+   `desc` VARCHAR(1000) NOT NULL,
+   `updated_date` DATE,
+   PRIMARY KEY ( `id` )
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
