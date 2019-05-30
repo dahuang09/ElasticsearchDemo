@@ -1,6 +1,6 @@
 package com.damon.controller.order;
 
-import com.damon.pojo.Order;
+import com.damon.pojo.JOrder;
 import com.damon.service.order.OrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,12 @@ public class OrderController {
     private OrderService orderService;
 
     @GetMapping(value="/orders")
-    public List<Order> listOrder(Map<String, Object> params){
+    public List<JOrder> listOrder(Map<String, Object> params){
         return orderService.listOrder(params);
+    }
+
+    @GetMapping(value = "/123")
+    public JOrder getOrder() {
+        return orderService.getOrder();
     }
 }

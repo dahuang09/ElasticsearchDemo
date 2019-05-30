@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@MapperScan("com.damon.pojo")
+@MapperScan("com.damon.dao")
 public class ElasticsearchDemoApplication {
 
 	public static void main(String[] args) {

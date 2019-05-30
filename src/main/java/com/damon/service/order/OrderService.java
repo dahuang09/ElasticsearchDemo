@@ -1,7 +1,7 @@
 package com.damon.service.order;
 
-import com.damon.dao.OrderMapper;
-import com.damon.pojo.Order;
+import com.damon.dao.JOrderMapper;
+import com.damon.pojo.JOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,9 +12,13 @@ import java.util.Map;
 public class OrderService {
 
     @Autowired
-    private OrderMapper orderMapper;
+    private JOrderMapper jOrderMapper;
 
-    public List<Order> listOrder(Map<String, Object> params) {
-        return orderMapper.listOrder(params);
+    public List<JOrder> listOrder(Map<String, Object> params) {
+        return jOrderMapper.listOrder(params);
+    }
+
+    public JOrder getOrder() {
+        return jOrderMapper.selectByPrimaryKey("123");
     }
 }

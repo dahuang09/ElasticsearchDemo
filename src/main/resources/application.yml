@@ -9,3 +9,7 @@ spring:
     url: jdbc:mysql://localhost:3306/my_db?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
     username: root
     password: jacob
+
+mybatis:
+  mapper-locations: classpath:mapping/*Mapper.xml
+  type-aliases-package: com.damon.pojo
