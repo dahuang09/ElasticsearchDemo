@@ -55,4 +55,6 @@ public interface JOrderMapper {
     int updateByPrimaryKey(JOrder record);
 
     List<JOrder> listOrder(Map<String, Object> params);
+
+    int batchInsert(List<JOrder> list);
 }

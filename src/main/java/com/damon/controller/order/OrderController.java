@@ -4,11 +4,9 @@ import com.damon.pojo.JOrder;
 import com.damon.service.order.OrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -19,13 +17,26 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
-    @GetMapping(value="/orders")
-    public List<JOrder> listOrder(Map<String, Object> params){
-        return orderService.listOrder(params);
+    @PostMapping(value="/orders")
+    public  Map<String, Object> listOrder(@RequestParam("dataSource") String dataSource, @RequestParam("queryStr") String queryStr) throws  Exception {
+        Map<String, Object> search = new HashMap<>();
+        search.put("description", queryStr);
+        search.put("dataSource", dataSource);
+        return orderService.listOrder(search);
     }
 
     @GetMapping(value = "/123")
     public JOrder getOrder() {
         return orderService.getOrder();
+    }
+
+    @PutMapping(value="/batch/{count}")
+    public String batchCreateOrder(@PathVariable Long count) {
+        return orderService.batchCreateOrder(count);
+    }
+
+    @GetMapping(value = "/sync")
+    public String batchSyncOrderToES() throws  Exception{
+        return orderService.batchSyncOrderToES();
     }
 }

@@ -7,10 +7,10 @@
 // ============================================================================
 package com.damon.thread.batch;
 
-import java.util.concurrent.atomic.AtomicLong;
-
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * @author damon.huang
@@ -41,8 +41,8 @@ public class UserBatchThread extends Thread {
             } catch (final Exception e) {
             }
             final long usedTime = (System.currentTimeMillis() - startTime);
-            log.info("## current used time: {}ms, total processed user: {}, avg: {}ms/doc, error: {}",
-                    usedTime, totalProcessed,  usedTime/totalProcessed.get(), errorCount);
+            log.info("## current used time: {}ms, total processed user: {}, avg: {} ms, error: {}",
+                    usedTime, totalProcessed,  totalProcessed.get()/usedTime, errorCount);
         }
     }
 

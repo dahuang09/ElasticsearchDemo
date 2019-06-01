@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS `USER`(
 CREATE TABLE IF NOT EXISTS `J_ORDER`(
    `id` VARCHAR(100),
    `order_num` VARCHAR(100) NOT NULL,
-   `amt` DECIMAL(5,5),
+   `amt` DECIMAL(10,10),
    `description` VARCHAR(1000) NOT NULL,
    `updated_date` DATE,
    PRIMARY KEY ( `id` )

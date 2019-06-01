@@ -88,6 +88,14 @@
       </if>
     </trim>
   </insert>
+
+  <insert id="batchInsert" parameterType="List">
+    insert into j_order (id, order_num, amt, description, updated_date) values
+    <foreach collection="list" item="item" index="index" separator="," >
+      (#{item.id}, #{item.orderNum}, #{item.amt}, #{item.description}, #{item.updatedDate})
+    </foreach>
+  </insert>
+
   <update id="updateByPrimaryKeySelective" parameterType="com.damon.pojo.JOrder">
     <!--
       WARNING - @mbg.generated
@@ -127,5 +135,9 @@
     select
     <include refid="Base_Column_List" />
     from j_order
+    <where>
+      <bind name="pattern" value="'%' + description + '%'" />
+      description like #{pattern}
+    </where>
   </select>
 </mapper>
